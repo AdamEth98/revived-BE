@@ -1,4 +1,8 @@
 const express = require("express");
+const { default: mongoose } = require("mongoose");
+const userSchema = require("./schemas/User");
+require("dotenv").config();
+const db = require("./utils/db");
 
 // app settings
 const app = express();
