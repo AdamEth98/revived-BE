@@ -1,0 +1,22 @@
+{
+  "name": "revived-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdamEth98/revived-BE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdamEth98/revived-BE/issues"
+  },
+  "homepage": "https://github.com/AdamEth98/revived-BE#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
