@@ -5,9 +5,9 @@ mongoose.connect(
   "mongodb+srv://ncendproject.bfw0nse.mongodb.net/revive",
   { useNewUrlParser: true },
   {
-    // auth: {
-    //   authSource: "admin",
-    // },
+    auth: {
+      authSource: "admin",
+    },
     user: admin,
     pass: h6wxQmSdreeX2r71,
   }
