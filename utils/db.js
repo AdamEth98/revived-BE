@@ -8,8 +8,8 @@ mongoose.connect(
     auth: {
       authSource: "admin",
     },
-    user: admin,
-    pass: h6wxQmSdreeX2r71,
+    // user: "admin",
+    // pass: "h6wxQmSdreeX2r71",
   }
 );
 
