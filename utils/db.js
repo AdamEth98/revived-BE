@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 mongoose.connect(
-  process.env.MONGO_URL,
+  "mongodb+srv://ncendproject.bfw0nse.mongodb.net/revive",
   { useNewUrlParser: true },
   {
     auth: {
