@@ -1,5 +1,5 @@
 const userSchema = require("../schemas/User");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
 
 module.exports = function (passport) {

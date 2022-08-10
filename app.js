@@ -5,20 +5,32 @@ require("dotenv").config();
 const db = require("./utils/db");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const bcrypt = require("bcryptjs");
-require("./utils/passportConfig")(passport);
+const bcrypt = require("bcrypt");
+//require("./utils/passportConfig")(passportConfig);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const {
+  getUserId,
+  patchUserName,
+  patchUserCharity,
+  getSingleItem,
+  getAllItems,
+  getAllUsers,
+  postItem,
+} = require("./model");
 
 // auth requires
 const passport = require("passport");
 const session = require("express-session");
+const passportConfig = require("./utils/passportConfig");
 const LocalStrategy = require("passport-local").Strategy;
 
 // app settings
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Parsing
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // auth settings
 app.use(
@@ -34,7 +46,7 @@ app.use(passport.session());
 
 //LogIn/SignUp Routes
 app.post("api/login", (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
+  passportConfig.authenticate("local", (err, user, info) => {
     if (err) throw err;
     if (!user) res.send("No User Exists");
     else {
@@ -64,20 +76,23 @@ app.post("api/register", (req, res) => {
 
 // User Routes
 
-app.get("api/users/:userId", (req, res) => {
-  const singleUser = userSchema.findById(req.params.userId);
-  res.send(singleUser);
-});
+app.get("/users/:userId", getUserId);
 
-app.patch("api/users/:userId", (req, res) => {
-  const updateUser = userSchema.updateOne(
-    { _id: req.params.userId },
-    { $set: { name: req.body.name } }
-  );
-  res.send(updateUser);
-});
+// app.patch("/users/:userId", patchUserName);
+
+// app.patch("/users/:userId", patchUserCharity);
+
+app.get("/users", getAllUsers);
+
+// Item Routes
+
+app.get("/items/:itemId", getSingleItem);
+
+app.get("/items", getAllItems);
+
+app.post("/items", postItem);
 
 //Listen
-app.listen(port, () => {
-  console.log(`Listening on port: ${port}`);
-});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.info(`Server has started on ${PORT}`));
