@@ -16,6 +16,8 @@ const {
   getAllItems,
   getAllUsers,
   postItem,
+  patchItemName,
+  patchItemLocation,
 } = require("./model");
 
 // auth requires
@@ -78,9 +80,9 @@ app.post("api/register", (req, res) => {
 
 app.get("/users/:userId", getUserId);
 
-// app.patch("/users/:userId", patchUserName);
+app.patch("/users/:userId", patchUserName);
 
-// app.patch("/users/:userId", patchUserCharity);
+app.patch("/users/:userId", patchUserCharity);
 
 app.get("/users", getAllUsers);
 
@@ -91,5 +93,9 @@ app.get("/items/:itemId", getSingleItem);
 app.get("/items", getAllItems);
 
 app.post("/items", postItem);
+
+app.patch("/items/:itemId", patchItemName);
+
+app.patch("/items/:itemId", patchItemLocation);
 
 module.exports = app;

@@ -8,21 +8,21 @@ exports.getUserId = async (req, res) => {
   res.status(200).send(singleUser);
 };
 
-// exports.patchUserName = (req, res) => {
-//   const updateUserName = userSchema.updateOne(
-//     { _id: req.params.userId },
-//     { $set: { name: req.body.name } }
-//   );
-//   res.status(200).send(updateUserName);
-// };
+/*Not Working ---->*/ exports.patchUserName = async (req, res) => {
+  const updateUserName = await userSchema.updateOne(
+    { _id: req.params.userId },
+    { $set: { name: req.body.name } }
+  );
+  res.status(200).send(updateUserName);
+};
 
-// exports.patchUserCharity = (req, res) => {
-//   const updateUserCharity = userSchema.updateOne(
-//     { _id: req.params.userId },
-//     { $set: { charity: req.body.charity } }
-//   );
-//   res.status(200).send(updateUserCharity);
-// };
+/*Not Working ---->*/ exports.patchUserCharity = async (req, res) => {
+  const updateUserCharity = await userSchema.updateOne(
+    { _id: req.params.userId },
+    { $set: { charity: req.body.charity } }
+  );
+  res.status(200).send(updateUserCharity);
+};
 
 exports.getAllUsers = async (req, res) => {
   const allUsers = await userSchema.find();
@@ -51,6 +51,22 @@ exports.postItem = async (req, res) => {
   });
   const newItem = await item.save();
   res.status(201).send(newItem);
+};
+
+exports.patchItemName = async (req, res) => {
+  const updateItemName = await itemSchema.updateOne(
+    { _id: req.params.itemId },
+    { $set: { itemname: req.body.itemname } }
+  );
+  res.status(200).send(updateItemName);
+};
+
+/*Not Working ---->*/ exports.patchItemLocation = async (req, res) => {
+  const updateItemLocation = await itemSchema.updateOne(
+    { _id: req.params.itemId },
+    { $set: { itemlocation: req.body.itemlocation } }
+  );
+  res.status(200).send(updateItemLocation);
 };
 
 // {
