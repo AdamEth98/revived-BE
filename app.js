@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
-//require("./utils/passportConfig")(passportConfig);
 
 const {
   getUserId,
@@ -25,7 +24,8 @@ const {
 const passport = require("passport");
 const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
-const passportConfig = require("./utils/passportConfig");
+require("./utils/passportConfig")(passport);
+// const passportConfig = require("./utils/passportConfig");
 
 // app settings
 const app = express();
@@ -54,7 +54,7 @@ app.use(passport.session());
 
 //LogIn/SignUp Routes
 app.post("/api/login", (req, res, next) => {
-  passportConfig.authenticate("local", (err, user, info) => {
+  passport.authenticate("local", (err, user, info) => {
     if (err) {
       console.log(err);
       throw err;
