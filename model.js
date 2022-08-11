@@ -69,6 +69,22 @@ exports.patchItemName = async (req, res) => {
   res.status(200).send(updateItemLocation);
 };
 
+exports.patchItemCategory = async (req, res) => {
+  const updateItemCategory = await itemSchema.updateOne(
+    { _id: req.params.itemId },
+    { $set: { itemcategory: req.body.itemcategory } }
+  );
+  res.status(200).send(updateItemCategory);
+};
+
+exports.patchItemClaim = async (req, res) => {
+  const updateItemClaim = await itemSchema.updateOne(
+    { _id: req.params.itemId },
+    { $set: { claimed: req.body.claimed } }
+  );
+  res.status(200).send(updateItemClaim);
+};
+
 // {
 //     "itemname": "Golden Prada dress size M",
 //     "itemlocation": "M205TG",

@@ -18,6 +18,8 @@ const {
   postItem,
   patchItemName,
   patchItemLocation,
+  patchItemCategory,
+  patchItemClaim,
 } = require("./model");
 
 // auth requires
@@ -25,7 +27,6 @@ const passport = require("passport");
 const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
 require("./utils/passportConfig")(passport);
-// const passportConfig = require("./utils/passportConfig");
 
 // app settings
 const app = express();
@@ -53,6 +54,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //LogIn/SignUp Routes
+
 app.post("/api/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
@@ -90,19 +92,21 @@ app.get("/api/user", (req, res) => {
   res.send(req.user);
 });
 
+// Home Page
+
 app.get("/", (req, res) => {
   res.send("hello");
 });
 
 // User Routes
 
+app.get("/users", getAllUsers);
+
 app.get("/users/:userId", getUserId);
 
 app.patch("/users/:userId", patchUserName);
 
 app.patch("/users/:userId", patchUserCharity);
-
-app.get("/users", getAllUsers);
 
 // Item Routes
 
@@ -115,5 +119,9 @@ app.post("/items", postItem);
 app.patch("/items/:itemId", patchItemName);
 
 app.patch("/items/:itemId", patchItemLocation);
+
+app.patch("/items/:itemId", patchItemCategory);
+
+app.patch("/items/:itemId", patchItemClaim);
 
 module.exports = app;
