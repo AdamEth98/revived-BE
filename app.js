@@ -35,6 +35,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // auth settings
+app.use(cookieParser(process.env.AUTH_SECRET));
 app.use(
   session({
     secret: process.env.AUTH_SECRET,
@@ -42,7 +43,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use(cookieParser(process.env.AUTH_SECRET));
 app.use(passport.initialize());
 app.use(passport.session());
 

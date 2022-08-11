@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 mongoose.connect(
-  "mongodb+srv://admin:h6wxQmSdreeX2r71@ncendproject.bfw0nse.mongodb.net/revive",
+  process.env.MONGO_URL,
   { useNewUrlParser: true },
   {
     auth: {
       authSource: "admin",
     },
-    // user: "admin",
-    // pass: "h6wxQmSdreeX2r71",
+    user: process.env.MONGO_USERNAME,
+    pass: process.env.MONGO_PW,
   }
 );
 
