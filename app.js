@@ -70,6 +70,7 @@ app.post("/api/register", (req, res) => {
     if (!doc) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const newUser = new userSchema({
+        name: req.body.name,
         email: req.body.email,
         password: hashedPassword,
       });
