@@ -6,6 +6,7 @@ const db = require("./utils/db");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
+const cors = require("cors");
 //require("./utils/passportConfig")(passportConfig);
 
 const {
@@ -23,8 +24,8 @@ const {
 // auth requires
 const passport = require("passport");
 const session = require("express-session");
-const passportConfig = require("./utils/passportConfig");
 const LocalStrategy = require("passport-local").Strategy;
+const passportConfig = require("./utils/passportConfig");
 
 // app settings
 const app = express();
@@ -33,7 +34,12 @@ const port = process.env.PORT || 3000;
 // Parsing
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(
+  cors({
+    origin: "https://revive-be.herokuapp.com/",
+    credentials: true,
+  })
+);
 // auth settings
 app.use(cookieParser(process.env.AUTH_SECRET));
 app.use(
@@ -49,12 +55,15 @@ app.use(passport.session());
 //LogIn/SignUp Routes
 app.post("/api/login", (req, res, next) => {
   passportConfig.authenticate("local", (err, user, info) => {
-    if (err) throw err;
+    if (err) {
+      console.log(err);
+      throw err;
+    }
     if (!user) res.send("No User Exists");
     else {
       req.logIn(user, (err) => {
         if (err) throw err;
-        res.send("Successfully Authenticated");
+        res.send(user._id);
       });
     }
   })(req, res, next);
@@ -62,10 +71,7 @@ app.post("/api/login", (req, res, next) => {
 
 app.post("/api/register", (req, res) => {
   userSchema.findOne({ email: req.body.email }, async (err, doc) => {
-    if (err) {
-      console.log(err);
-      throw err;
-    }
+    if (err) throw err;
     if (doc) res.send("User Already Exists");
     if (!doc) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
