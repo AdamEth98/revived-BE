@@ -22,6 +22,7 @@ const {
   patchItemClaim,
   patchItemOwner,
   deleteItem,
+  patchItem,
 } = require("./model");
 
 // auth requires
@@ -118,7 +119,7 @@ app.get("/items", getAllItems);
 
 app.post("/items", postItem);
 
-app.patch("/items/:itemId", patchItemName);
+app.patch("/items/:itemId", patchItem);
 
 app.patch("/items/:itemId", patchItemLocation);
 
