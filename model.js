@@ -22,22 +22,6 @@ exports.patchUser = async (req, res) => {
   res.status(200).send(updateUser);
 };
 
-// exports.patchUserName = async (req, res) => {
-//   const updateUserName = await userSchema.updateOne(
-//     { _id: req.params.userId },
-//     { $set: { name: req.body.name } }
-//   );
-//   res.status(200).send(updateUserName);
-// };
-
-// /*Not Working -------->*/ exports.patchUserCharity = async (req, res) => {
-//   const updateUserCharity = await userSchema.updateOne(
-//     { _id: req.params.userId },
-//     { $set: { charity: req.body.charity } }
-//   );
-//   res.status(200).send(updateUserCharity);
-// };
-
 // Item Routes
 
 exports.getSingleItem = async (req, res) => {

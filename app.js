@@ -10,15 +10,13 @@ const cors = require("cors");
 
 const {
   getUserId,
-  patchUserName,
-  patchUserCharity,
+  patchUser,
   getSingleItem,
   getAllItems,
   getAllUsers,
   postItem,
-  deleteItem,
   patchItem,
-  patchUser,
+  deleteItem,
 } = require("./model");
 
 // auth requires
@@ -29,7 +27,6 @@ require("./utils/passportConfig")(passport);
 
 // app settings
 const app = express();
-const port = process.env.PORT || 3000;
 
 // Parsing
 app.use(bodyParser.json());
@@ -104,8 +101,6 @@ app.get("/users", getAllUsers);
 app.get("/users/:userId", getUserId);
 
 app.patch("/users/:userId", patchUser);
-
-//app.patch("/users/:userId", patchUserCharity);
 
 // Item Routes
 
