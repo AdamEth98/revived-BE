@@ -47,7 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //LogIn/SignUp Routes
-app.post("api/login", (req, res, next) => {
+app.post("/api/login", (req, res, next) => {
   passportConfig.authenticate("local", (err, user, info) => {
     if (err) throw err;
     if (!user) res.send("No User Exists");
@@ -60,7 +60,7 @@ app.post("api/login", (req, res, next) => {
   })(req, res, next);
 });
 
-app.post("api/register", (req, res) => {
+app.post("/api/register", (req, res) => {
   userSchema.findOne({ email: req.body.email }, async (err, doc) => {
     if (err) throw err;
     if (doc) res.send("User Already Exists");
