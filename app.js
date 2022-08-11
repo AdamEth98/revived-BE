@@ -100,7 +100,7 @@ app.get("/users", getAllUsers);
 
 app.get("/users/:userId", getUserId);
 
-app.patch("/users/:userId", patchUser);
+app.patch("/api/users/:userId", patchUser);
 
 // Item Routes
 
