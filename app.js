@@ -63,7 +63,7 @@ app.post("/api/login", (req, res, next) => {
     else {
       req.logIn(user, (err) => {
         if (err) throw err;
-        res.send(user._id);
+        res.send(req.user._id);
       });
     }
   })(req, res, next);
@@ -86,7 +86,7 @@ app.post("/api/register", (req, res) => {
   });
 });
 
-app.get("/user", (req, res) => {
+app.get("/api/user", (req, res) => {
   res.send(req.user);
 });
 
