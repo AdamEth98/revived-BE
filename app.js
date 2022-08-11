@@ -76,6 +76,10 @@ app.post("api/register", (req, res) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.send("hello");
+});
+
 // User Routes
 
 app.get("/users/:userId", getUserId);
