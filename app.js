@@ -62,7 +62,10 @@ app.post("/api/login", (req, res, next) => {
 
 app.post("/api/register", (req, res) => {
   userSchema.findOne({ email: req.body.email }, async (err, doc) => {
-    if (err) throw err;
+    if (err) {
+      console.log(err);
+      throw err;
+    }
     if (doc) res.send("User Already Exists");
     if (!doc) {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
