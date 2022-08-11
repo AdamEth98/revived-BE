@@ -16,13 +16,9 @@ const {
   getAllItems,
   getAllUsers,
   postItem,
-  patchItemName,
-  patchItemLocation,
-  patchItemCategory,
-  patchItemClaim,
-  patchItemOwner,
   deleteItem,
   patchItem,
+  patchUser,
 } = require("./model");
 
 // auth requires
@@ -107,9 +103,9 @@ app.get("/users", getAllUsers);
 
 app.get("/users/:userId", getUserId);
 
-app.patch("/users/:userId", patchUserName);
+app.patch("/users/:userId", patchUser);
 
-app.patch("/users/:userId", patchUserCharity);
+//app.patch("/users/:userId", patchUserCharity);
 
 // Item Routes
 
@@ -120,14 +116,6 @@ app.get("/items", getAllItems);
 app.post("/items", postItem);
 
 app.patch("/items/:itemId", patchItem);
-
-app.patch("/items/:itemId", patchItemLocation);
-
-app.patch("/items/:itemId", patchItemCategory);
-
-app.patch("/items/:itemId", patchItemClaim);
-
-app.patch("/items/:itemId", patchItemOwner);
 
 app.delete("/items/:itemId", deleteItem);
 
