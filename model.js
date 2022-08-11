@@ -13,12 +13,13 @@ exports.getUserId = async (req, res) => {
   res.status(200).send(singleUser);
 };
 
-exports.patchUserName = async (req, res) => {
+exports.patchUserName = async (req, res, next) => {
   const updateUserName = await userSchema.updateOne(
     { _id: req.params.userId },
     { $set: { name: req.body.name } }
   );
   res.status(200).send(updateUserName);
+  next();
 };
 
 /*Not Working -------->*/ exports.patchUserCharity = async (req, res) => {
