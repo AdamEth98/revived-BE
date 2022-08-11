@@ -86,6 +86,10 @@ app.post("/api/register", (req, res) => {
   });
 });
 
+app.get("/user", (req, res) => {
+  res.send(req.user);
+});
+
 app.get("/", (req, res) => {
   res.send("hello");
 });
