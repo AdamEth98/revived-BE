@@ -8,7 +8,7 @@ exports.getUserId = async (req, res) => {
   res.status(200).send(singleUser);
 };
 
-/*Not Working ---->*/ exports.patchUserName = async (req, res) => {
+exports.patchUserName = async (req, res) => {
   const updateUserName = await userSchema.updateOne(
     { _id: req.params.userId },
     { $set: { name: req.body.name } }
