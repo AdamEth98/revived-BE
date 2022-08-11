@@ -3,6 +3,11 @@ const itemSchema = require("./schemas/Item");
 
 // User Routes
 
+exports.getAllUsers = async (req, res) => {
+  const allUsers = await userSchema.find();
+  res.status(200).send(allUsers);
+};
+
 exports.getUserId = async (req, res) => {
   const singleUser = await userSchema.findById(req.params.userId);
   res.status(200).send(singleUser);
@@ -16,17 +21,12 @@ exports.patchUserName = async (req, res) => {
   res.status(200).send(updateUserName);
 };
 
-/*Not Working ---->*/ exports.patchUserCharity = async (req, res) => {
+/*Not Working -------->*/ exports.patchUserCharity = async (req, res) => {
   const updateUserCharity = await userSchema.updateOne(
     { _id: req.params.userId },
     { $set: { charity: req.body.charity } }
   );
   res.status(200).send(updateUserCharity);
-};
-
-exports.getAllUsers = async (req, res) => {
-  const allUsers = await userSchema.find();
-  res.status(200).send(allUsers);
 };
 
 // Item Routes
@@ -61,7 +61,7 @@ exports.patchItemName = async (req, res) => {
   res.status(200).send(updateItemName);
 };
 
-/*Not Working ---->*/ exports.patchItemLocation = async (req, res) => {
+/*Not Working -------->*/ exports.patchItemLocation = async (req, res) => {
   const updateItemLocation = await itemSchema.updateOne(
     { _id: req.params.itemId },
     { $set: { itemlocation: req.body.itemlocation } }
@@ -69,7 +69,7 @@ exports.patchItemName = async (req, res) => {
   res.status(200).send(updateItemLocation);
 };
 
-exports.patchItemCategory = async (req, res) => {
+/*Not Working -------->*/ exports.patchItemCategory = async (req, res) => {
   const updateItemCategory = await itemSchema.updateOne(
     { _id: req.params.itemId },
     { $set: { itemcategory: req.body.itemcategory } }
@@ -77,12 +77,20 @@ exports.patchItemCategory = async (req, res) => {
   res.status(200).send(updateItemCategory);
 };
 
-exports.patchItemClaim = async (req, res) => {
+/*Not Working -------->*/ exports.patchItemClaim = async (req, res) => {
   const updateItemClaim = await itemSchema.updateOne(
     { _id: req.params.itemId },
     { $set: { claimed: req.body.claimed } }
   );
   res.status(200).send(updateItemClaim);
+};
+
+exports.patchItemOwner = async (req, res) => {
+  const updateItemOwner = await itemSchema.updateOne(
+    { _id: req.params.itemId },
+    { $set: { itemowner: req.body.itemowner } }
+  );
+  res.status(200).send(updateItemOwner);
 };
 
 // {
