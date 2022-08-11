@@ -95,7 +95,7 @@ exports.patchItemName = async (req, res) => {
 
 exports.deleteItem = async (req, res) => {
   const removeItem = await itemSchema.remove({ _id: req.params.itemId });
-  res.status(204).send("item Deleted:", removeItem);
+  res.status(204).send(removeItem);
 };
 
 // {
