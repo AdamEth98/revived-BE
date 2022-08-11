@@ -21,6 +21,7 @@ const {
   patchItemCategory,
   patchItemClaim,
   patchItemOwner,
+  deleteItem,
 } = require("./model");
 
 // auth requires
@@ -126,5 +127,7 @@ app.patch("/items/:itemId", patchItemCategory);
 app.patch("/items/:itemId", patchItemClaim);
 
 app.patch("/items/:itemId", patchItemOwner);
+
+app.delete("/items/:itemId", deleteItem);
 
 module.exports = app;

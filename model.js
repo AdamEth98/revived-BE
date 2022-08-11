@@ -85,12 +85,17 @@ exports.patchItemName = async (req, res) => {
   res.status(200).send(updateItemClaim);
 };
 
-exports.patchItemOwner = async (req, res) => {
+/*Not Working -------->*/ exports.patchItemOwner = async (req, res) => {
   const updateItemOwner = await itemSchema.updateOne(
     { _id: req.params.itemId },
     { $set: { itemowner: req.body.itemowner } }
   );
   res.status(200).send(updateItemOwner);
+};
+
+exports.deleteItem = async (req, res) => {
+  const removeItem = await itemSchema.remove({ _id: req.params.itemId });
+  res.status(204).send("item Deleted:", removeItem);
 };
 
 // {
@@ -101,3 +106,12 @@ exports.patchItemOwner = async (req, res) => {
 //     "itemimgurl":
 //       "https://a.1stdibscdn.com/prada-gold-metallic-leather-dress-fairytale-for-sale/1121189/v_80933021574347855196/8093302_master.jpg"
 //     }
+
+// {
+//   "itemname": "shoes",
+//   "itemlocation": "D973TY",
+//   "itemcategory": "clothing",
+//   "itemowner": "QWERTY",
+//   "itemimgurl":
+//     "PICTURE OF SHOES"
+//   }
