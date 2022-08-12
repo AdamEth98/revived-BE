@@ -42,7 +42,9 @@ exports.patchUser = async (req, res) => {
 // Item Routes
 
 exports.getSingleItem = async (req, res) => {
-  const singleItem = await itemSchema.findById(req.params.itemId);
+  const singleItem = await itemSchema
+    .findById(req.params.itemId)
+    .populate("items");
   res.status(200).send(singleItem);
 };
 
@@ -52,14 +54,22 @@ exports.getAllItems = async (req, res) => {
 };
 
 exports.postItem = async (req, res) => {
+  const userId = req.params.userId;
   const item = new itemSchema({
     itemname: req.body.itemname,
     itemlocation: req.body.itemlocation,
     itemcategory: req.body.itemcategory,
     itemowner: req.body.itemowner,
+    itemownerId: req.params.itemownerId,
     itemimgurl: req.body.itemimgurl,
   });
-  const newItem = await item.save();
+  const newItem = await item.save().then((result) => {
+    return userSchema.findByIdAndUpdate(
+      userId,
+      { $push: { items: item } },
+      { new: true, useFindAndModify: false }
+    );
+  });
   res.status(201).send(newItem);
 };
 
@@ -76,21 +86,3 @@ exports.deleteItem = async (req, res) => {
   const removeItem = await itemSchema.remove({ _id: req.params.itemId });
   res.status(204).send(removeItem);
 };
-
-// {
-//     "itemname": "Golden Prada dress size M",
-//     "itemlocation": "M205TG",
-//     "itemcategory": "clothing",
-//     "itemowner": "Kate Bush",
-//     "itemimgurl":
-//       "https://a.1stdibscdn.com/prada-gold-metallic-leather-dress-fairytale-for-sale/1121189/v_80933021574347855196/8093302_master.jpg"
-//     }
-
-// {
-//   "itemname": "shoes",
-//   "itemlocation": "D973TY",
-//   "itemcategory": "clothing",
-//   "itemowner": "QWERTY",
-//   "itemimgurl":
-//     "PICTURE OF SHOES"
-//   }

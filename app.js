@@ -104,7 +104,7 @@ app.get("/api/items/:itemId", getSingleItem);
 
 app.get("/api/items", getAllItems);
 
-app.post("/api/items", postItem);
+app.post("/api/users/:userId/items", postItem);
 
 app.patch("/api/items/:itemId", patchItem);
 
