@@ -14,15 +14,29 @@ exports.getUserId = async (req, res) => {
   res.status(200).send(singleUser);
 };
 
+// exports.patchUser = (req, res) => {
+//   const updateUserBody = req.body;
+//   const id = req.params.userId;
+
+//   userSchema.findByIdAndUpdate(
+//     id,
+//     { updateUserBody },
+//     { new: true },
+//     (err, user) => {
+//       if (err) res.status(500);
+//       if (!user) res.status(404).send("404: User not found.");
+//       else res.status(200).send(user);
+//     }
+//   );
+// };
+
 exports.patchUser = async (req, res) => {
   const updateUserBody = req.body;
-  const id = req.params.userId;
-
-  userSchema.findByIdAndUpdate(id, { updateUserBody }, { new: true }, (err, user) => {
-    if (err) res.status(500);
-    if (!user) res.status(404).send("404: User not found.");
-    else res.status(200).send(user);
-  });
+  const updateUser = await userSchema.updateOne(
+    { _id: req.params.userId },
+    { $set: updateUserBody }
+  );
+  res.status(200).send(updateUser);
 };
 
 // Item Routes
@@ -51,7 +65,10 @@ exports.postItem = async (req, res) => {
 
 exports.patchItem = async (req, res) => {
   const updateItemBody = req.body;
-  const updateItem = await itemSchema.updateOne({ _id: req.params.itemId }, { $set: updateItemBody });
+  const updateItem = await itemSchema.updateOne(
+    { _id: req.params.itemId },
+    { $set: updateItemBody }
+  );
   res.status(200).send(updateItem);
 };
 

@@ -53,17 +53,13 @@ app.use(passport.session());
 
 app.post("/api/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    if (err) {
-      console.log(err);
-      throw err;
-    }
-    if (!user) res.send("No User Exists");
-    else {
+    if (err) throw err;
+    if (!user) res.status(404).send("No User Exists");
+    else
       req.logIn(user, (err) => {
         if (err) throw err;
-        res.send(req.user._id);
+        res.send(user._id);
       });
-    }
   })(req, res, next);
 });
 
@@ -96,22 +92,22 @@ app.get("/", (req, res) => {
 
 // User Routes
 
-app.get("/users", getAllUsers);
+app.get("/api/users", getAllUsers);
 
-app.get("/users/:userId", getUserId);
+app.get("/api/users/:userId", getUserId);
 
 app.patch("/api/users/:userId", patchUser);
 
 // Item Routes
 
-app.get("/items/:itemId", getSingleItem);
+app.get("/api/items/:itemId", getSingleItem);
 
-app.get("/items", getAllItems);
+app.get("/api/items", getAllItems);
 
-app.post("/items", postItem);
+app.post("/api/items", postItem);
 
-app.patch("/items/:itemId", patchItem);
+app.patch("/api/items/:itemId", patchItem);
 
-app.delete("/items/:itemId", deleteItem);
+app.delete("/api/items/:itemId", deleteItem);
 
 module.exports = app;
