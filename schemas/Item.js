@@ -6,10 +6,9 @@ const itemSchema = new mongoose.Schema({
   itemlocation: { type: String, required: true },
   itemcategory: { type: String, required: true },
   itemowner: String,
-  itemownerId: { type: Schema.Types.ObjectId, ref: "users" },
   claimed: { type: Boolean, default: false },
   itemcreateddate: { type: Date, default: Date.now },
-  itemimgurl: String,
+  itemimgurl: [{ type: Schema.Types.ObjectId, ref: "images" }],
 });
 
 module.exports = mongoose.model("items", itemSchema);

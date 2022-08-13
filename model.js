@@ -1,6 +1,8 @@
 const userSchema = require("./schemas/User");
 const itemSchema = require("./schemas/Item");
+const imageSchema = require("./schemas/image");
 const { default: mongoose } = require("mongoose");
+const multer = require("multer");
 
 // User Routes
 
@@ -60,7 +62,6 @@ exports.postItem = async (req, res) => {
     itemlocation: req.body.itemlocation,
     itemcategory: req.body.itemcategory,
     itemowner: req.body.itemowner,
-    itemownerId: req.params.itemownerId,
     itemimgurl: req.body.itemimgurl,
   });
   const newItem = await item.save().then((result) => {
