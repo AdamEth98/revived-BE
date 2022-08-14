@@ -8,7 +8,7 @@ const itemSchema = new mongoose.Schema({
   itemowner: String,
   claimed: { type: Boolean, default: false },
   itemcreateddate: { type: Date, default: Date.now },
-  itemimgurl: [{ type: Schema.Types.ObjectId, ref: "images" }],
+  itemimgurl: { type: String },
 });
 
 module.exports = mongoose.model("items", itemSchema);

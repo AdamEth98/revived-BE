@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
+const upload = require("./utils/upload");
 
 const {
   getUserId,
@@ -17,6 +18,7 @@ const {
   postItem,
   patchItem,
   deleteItem,
+  uploadImage,
 } = require("./model");
 
 // auth requires
@@ -104,7 +106,7 @@ app.get("/api/items/:itemId", getSingleItem);
 
 app.get("/api/items", getAllItems);
 
-app.post("/api/users/:userId/items", postItem);
+app.post("/api/users/:userId/items", upload.single("itemimage"), postItem);
 
 app.patch("/api/items/:itemId", patchItem);
 

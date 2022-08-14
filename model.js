@@ -3,6 +3,7 @@ const itemSchema = require("./schemas/Item");
 const imageSchema = require("./schemas/image");
 const { default: mongoose } = require("mongoose");
 const multer = require("multer");
+const upload = require("./utils/upload");
 
 // User Routes
 
@@ -34,19 +35,14 @@ exports.getUserId = async (req, res) => {
 
 exports.patchUser = async (req, res) => {
   const updateUserBody = req.body;
-  const updateUser = await userSchema.updateOne(
-    { _id: req.params.userId },
-    { $set: updateUserBody }
-  );
+  const updateUser = await userSchema.updateOne({ _id: req.params.userId }, { $set: updateUserBody });
   res.status(200).send(updateUser);
 };
 
 // Item Routes
 
 exports.getSingleItem = async (req, res) => {
-  const singleItem = await itemSchema
-    .findById(req.params.itemId)
-    .populate("items");
+  const singleItem = await itemSchema.findById(req.params.itemId).populate("items");
   res.status(200).send(singleItem);
 };
 
@@ -62,24 +58,17 @@ exports.postItem = async (req, res) => {
     itemlocation: req.body.itemlocation,
     itemcategory: req.body.itemcategory,
     itemowner: req.body.itemowner,
-    itemimgurl: req.body.itemimgurl,
+    itemimgurl: req.file.link,
   });
-  const newItem = await item.save().then((result) => {
-    return userSchema.findByIdAndUpdate(
-      userId,
-      { $push: { items: item } },
-      { new: true, useFindAndModify: false }
-    );
+  await item.save().then((result) => {
+    userSchema.findByIdAndUpdate(userId, { $push: { items: item } }, { new: true, useFindAndModify: false });
+    res.status(201).send(result);
   });
-  res.status(201).send(newItem);
 };
 
 exports.patchItem = async (req, res) => {
   const updateItemBody = req.body;
-  const updateItem = await itemSchema.updateOne(
-    { _id: req.params.itemId },
-    { $set: updateItemBody }
-  );
+  const updateItem = await itemSchema.updateOne({ _id: req.params.itemId }, { $set: updateItemBody });
   res.status(200).send(updateItem);
 };
 
