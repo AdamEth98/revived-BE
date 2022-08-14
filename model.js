@@ -39,6 +39,11 @@ exports.patchUser = async (req, res) => {
   res.status(200).send(updateUser);
 };
 
+exports.postAvatar = async (req, res) => {
+  const updateUser = await userSchema.updateOne({ _id: req.params.userId }, { $set: { avatar: req.file.link } });
+  res.status(200).send(updateUser);
+};
+
 // Item Routes
 
 exports.getSingleItem = async (req, res) => {
@@ -61,7 +66,7 @@ exports.postItem = async (req, res) => {
     itemimgurl: req.file.link,
   });
   await item.save().then((result) => {
-    userSchema.findByIdAndUpdate(userId, { $push: { items: item } }, { new: true, useFindAndModify: false });
+    userSchema.findByIdAndUpdate(userId, { $push: { items: result._id } }, { new: true, useFindAndModify: false });
     res.status(201).send(result);
   });
 };

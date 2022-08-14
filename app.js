@@ -19,6 +19,7 @@ const {
   patchItem,
   deleteItem,
   uploadImage,
+  postAvatar,
 } = require("./model");
 
 // auth requires
@@ -99,6 +100,8 @@ app.get("/api/users", getAllUsers);
 app.get("/api/users/:userId", getUserId);
 
 app.patch("/api/users/:userId", patchUser);
+
+app.post("/api/users/:userId/avatar", upload.single("avatar"), postAvatar);
 
 // Item Routes
 
