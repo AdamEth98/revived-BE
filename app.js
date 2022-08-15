@@ -8,7 +8,8 @@ const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
 const upload = require("./utils/upload");
-
+const socket = require("socket.io");
+const server = require("./listen");
 const {
   getUserId,
   patchUser,
@@ -19,6 +20,9 @@ const {
   patchItem,
   deleteItem,
   postAvatar,
+  getAllMessages,
+  postMessage,
+  getMessages,
 } = require("./model");
 
 // auth requires
@@ -114,5 +118,37 @@ app.post("/api/users/:userId/items", upload.single("itemimage"), postItem);
 app.patch("/api/items/:itemId", patchItem);
 
 app.delete("/api/items/:itemId", deleteItem);
+
+// Message Routes
+
+app.get("/api/messages", getAllMessages);
+
+app.post("/api/addmessage", postMessage);
+
+app.post("/api/getmessage", getMessages);
+
+// Socket Messaging
+
+const io = socket(server, {
+  cors: {
+    origin: "https://revive-be.herokuapp.com/",
+    credentials: true,
+  },
+});
+
+global.onlineUsers = new Map();
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on("send-msg", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+    }
+  });
+});
 
 module.exports = app;

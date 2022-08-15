@@ -1,5 +1,6 @@
 const userSchema = require("./schemas/User");
 const itemSchema = require("./schemas/Item");
+const messageSchema = require("./schemas/message");
 
 // User Routes
 
@@ -85,4 +86,43 @@ exports.patchItem = async (req, res) => {
 exports.deleteItem = async (req, res) => {
   const removeItem = await itemSchema.remove({ _id: req.params.itemId });
   res.status(204).send(removeItem);
+};
+
+// Message Routes
+
+exports.getAllMessages = async (req, res) => {
+  const allMessages = await messageSchema.find();
+  res.status(200).send(allMessages);
+};
+
+exports.getMessages = async (req, res) => {
+  const { from, to } = req.body;
+
+  const messages = await messageSchema
+    .find({
+      users: {
+        $all: [from, to],
+      },
+    })
+    .sort({ updatedAt: 1 });
+
+  const projectedMessages = messages.map((msg) => {
+    return {
+      fromSelf: msg.sender.toString() === from,
+      message: msg.message.text,
+    };
+  });
+  res.send(projectedMessages);
+};
+
+exports.postMessage = async (req, res) => {
+  const { from, to, message } = req.body;
+  const data = await messageSchema.create({
+    message: { text: message },
+    users: [from, to],
+    sender: from,
+  });
+
+  if (data) return res.send({ msg: "Message added successfully." });
+  else return res.send({ msg: "Failed to add message to the database" });
 };
