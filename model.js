@@ -1,9 +1,5 @@
 const userSchema = require("./schemas/User");
 const itemSchema = require("./schemas/Item");
-const imageSchema = require("./schemas/image");
-const { default: mongoose } = require("mongoose");
-const multer = require("multer");
-const upload = require("./utils/upload");
 
 // User Routes
 
@@ -17,37 +13,29 @@ exports.getUserId = async (req, res) => {
   res.status(200).send(singleUser);
 };
 
-// exports.patchUser = (req, res) => {
-//   const updateUserBody = req.body;
-//   const id = req.params.userId;
-
-//   userSchema.findByIdAndUpdate(
-//     id,
-//     { updateUserBody },
-//     { new: true },
-//     (err, user) => {
-//       if (err) res.status(500);
-//       if (!user) res.status(404).send("404: User not found.");
-//       else res.status(200).send(user);
-//     }
-//   );
-// };
-
 exports.patchUser = async (req, res) => {
   const updateUserBody = req.body;
-  const updateUser = await userSchema.updateOne({ _id: req.params.userId }, { $set: updateUserBody });
+  const updateUser = await userSchema.updateOne(
+    { _id: req.params.userId },
+    { $set: updateUserBody }
+  );
   res.status(200).send(updateUser);
 };
 
 exports.postAvatar = async (req, res) => {
-  const updateUser = await userSchema.updateOne({ _id: req.params.userId }, { $set: { avatar: req.file.link } });
+  const updateUser = await userSchema.updateOne(
+    { _id: req.params.userId },
+    { $set: { avatar: req.file.link } }
+  );
   res.status(200).send(updateUser);
 };
 
 // Item Routes
 
 exports.getSingleItem = async (req, res) => {
-  const singleItem = await itemSchema.findById(req.params.itemId).populate("items");
+  const singleItem = await itemSchema
+    .findById(req.params.itemId)
+    .populate("items");
   res.status(200).send(singleItem);
 };
 
@@ -66,14 +54,21 @@ exports.postItem = async (req, res) => {
     itemimgurl: req.file.link,
   });
   await item.save().then((result) => {
-    userSchema.findByIdAndUpdate(userId, { $push: { items: result._id } }, { new: true, useFindAndModify: false });
+    userSchema.findByIdAndUpdate(
+      userId,
+      { $push: { items: result._id } },
+      { new: true, useFindAndModify: false }
+    );
     res.status(201).send(result);
   });
 };
 
 exports.patchItem = async (req, res) => {
   const updateItemBody = req.body;
-  const updateItem = await itemSchema.updateOne({ _id: req.params.itemId }, { $set: updateItemBody });
+  const updateItem = await itemSchema.updateOne(
+    { _id: req.params.itemId },
+    { $set: updateItemBody }
+  );
   res.status(200).send(updateItem);
 };
 

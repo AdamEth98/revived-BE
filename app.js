@@ -18,7 +18,6 @@ const {
   postItem,
   patchItem,
   deleteItem,
-  uploadImage,
   postAvatar,
 } = require("./model");
 
@@ -40,6 +39,7 @@ app.use(
     credentials: true,
   })
 );
+
 // auth settings
 app.use(cookieParser(process.env.AUTH_SECRET));
 app.use(
