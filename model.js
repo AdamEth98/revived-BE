@@ -15,27 +15,19 @@ exports.getUserId = async (req, res) => {
 
 exports.patchUser = async (req, res) => {
   const updateUserBody = req.body;
-  const updateUser = await userSchema.updateOne(
-    { _id: req.params.userId },
-    { $set: updateUserBody }
-  );
+  const updateUser = await userSchema.updateOne({ _id: req.params.userId }, { $set: updateUserBody });
   res.status(200).send(updateUser);
 };
 
 exports.postAvatar = async (req, res) => {
-  const updateUser = await userSchema.updateOne(
-    { _id: req.params.userId },
-    { $set: { avatar: req.file.link } }
-  );
+  const updateUser = await userSchema.updateOne({ _id: req.params.userId }, { $set: { avatar: req.file.link } });
   res.status(200).send(updateUser);
 };
 
 // Item Routes
 
 exports.getSingleItem = async (req, res) => {
-  const singleItem = await itemSchema
-    .findById(req.params.itemId)
-    .populate("items");
+  const singleItem = await itemSchema.findById(req.params.itemId).populate("items");
   res.status(200).send(singleItem);
 };
 
@@ -46,29 +38,32 @@ exports.getAllItems = async (req, res) => {
 
 exports.postItem = async (req, res) => {
   const userId = req.params.userId;
-  const item = new itemSchema({
-    itemname: req.body.itemname,
-    itemlocation: req.body.itemlocation,
-    itemcategory: req.body.itemcategory,
-    itemowner: req.body.itemowner,
-    itemimgurl: req.file.link,
-  });
-  await item.save().then((result) => {
-    userSchema.findByIdAndUpdate(
-      userId,
-      { $push: { items: result._id } },
-      { new: true, useFindAndModify: false }
-    );
-    res.status(201).send(result);
-  });
+
+  await userSchema
+    .findById(userId)
+    .then((result) => {
+      return result.name;
+    })
+    .then((name) => {
+      const item = new itemSchema({
+        itemname: req.body.itemname,
+        itemlocation: req.body.itemlocation,
+        itemcategory: req.body.itemcategory,
+        itemowner: name,
+        itemownerid: userId,
+        itemimgurl: req.file.link,
+      });
+      return item.save();
+    })
+    .then((result) => {
+      userSchema.findByIdAndUpdate(userId, { $push: { items: result._id } }, { new: true, useFindAndModify: false });
+      res.status(201).send(result);
+    });
 };
 
 exports.patchItem = async (req, res) => {
   const updateItemBody = req.body;
-  const updateItem = await itemSchema.updateOne(
-    { _id: req.params.itemId },
-    { $set: updateItemBody }
-  );
+  const updateItem = await itemSchema.updateOne({ _id: req.params.itemId }, { $set: updateItemBody });
   res.status(200).send(updateItem);
 };
 
