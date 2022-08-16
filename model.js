@@ -39,9 +39,8 @@ exports.deleteUser = async (req, res) => {
 // Item Routes
 
 exports.getSingleItem = async (req, res) => {
-  const singleItem = await itemSchema
-    .findById(req.params.itemId)
-    .populate("items");
+  const singleItem = await itemSchema.findById(req.params.itemId);
+  //.populate("items");
   res.status(200).send(singleItem);
 };
 
