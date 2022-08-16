@@ -49,6 +49,17 @@ exports.getAllItems = async (req, res) => {
   res.status(200).send(allItems);
 };
 
+exports.getAllItems = async (req, res) => {
+  const category = req.query.category;
+  if (category) {
+    const query = await itemSchema.find({ itemcategory: category });
+    res.status(200).send(query);
+  } else {
+    const allItems = await itemSchema.find();
+    res.status(200).send(allItems);
+  }
+};
+
 exports.getAllUserItems = async (req, res) => {
   const allUserItems = await itemSchema.find({
     itemownerid: req.params.userId,
@@ -79,7 +90,7 @@ exports.postItem = async (req, res) => {
     .then((result) => {
       userSchema.findByIdAndUpdate(
         userId,
-        { $push: { items: result } },
+        { $push: { items: result._id } },
         { new: true, useFindAndModify: false }
       );
       res.status(201).send(result);
