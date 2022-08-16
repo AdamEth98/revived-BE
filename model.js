@@ -31,6 +31,11 @@ exports.postAvatar = async (req, res) => {
   res.status(200).send(updateUser);
 };
 
+exports.deleteUser = async (req, res) => {
+  const removeUser = await userSchema.remove({ _id: req.params.userId });
+  res.status(204).send(removeUser);
+};
+
 // Item Routes
 
 exports.getSingleItem = async (req, res) => {
@@ -65,6 +70,7 @@ exports.postItem = async (req, res) => {
         itemname: req.body.itemname,
         itemlocation: req.body.itemlocation,
         itemcategory: req.body.itemcategory,
+        itemdescription: req.body.itemdescription,
         itemowner: name,
         itemownerid: userId,
         itemimgurl: req.file.link,

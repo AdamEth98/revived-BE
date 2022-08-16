@@ -17,6 +17,7 @@ const {
   getAllUserItems,
   getAllItems,
   getAllUsers,
+  deleteUser,
   postItem,
   patchItem,
   deleteItem,
@@ -107,6 +108,8 @@ app.get("/api/users/:userId", getUserId);
 app.patch("/api/users/:userId", patchUser);
 
 app.post("/api/users/:userId/avatar", upload.single("avatar"), postAvatar);
+
+app.delete("/api/users/:userId", deleteUser);
 
 // Item Routes
 
