@@ -45,6 +45,13 @@ exports.getAllItems = async (req, res) => {
   res.status(200).send(allItems);
 };
 
+exports.getAllUserItems = async (req, res) => {
+  const allUserItems = await itemSchema.find({
+    itemownerid: req.params.userId,
+  });
+  res.status(200).send(allUserItems);
+};
+
 exports.postItem = async (req, res) => {
   const userId = req.params.userId;
 
@@ -90,7 +97,7 @@ exports.deleteItem = async (req, res) => {
 
 // Message Routes
 
-exports.getAllMessages = async (req, res) => {
+exports.getAllDBMessages = async (req, res) => {
   const allMessages = await messageSchema.find();
   res.status(200).send(allMessages);
 };

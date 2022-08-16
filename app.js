@@ -14,13 +14,14 @@ const {
   getUserId,
   patchUser,
   getSingleItem,
+  getAllUserItems,
   getAllItems,
   getAllUsers,
   postItem,
   patchItem,
   deleteItem,
   postAvatar,
-  getAllMessages,
+  getAllDBMessages,
   postMessage,
   getMessages,
 } = require("./model");
@@ -113,6 +114,8 @@ app.get("/api/items/:itemId", getSingleItem);
 
 app.get("/api/items", getAllItems);
 
+app.get("/api/users/:userId/items", getAllUserItems);
+
 app.post("/api/users/:userId/items", upload.single("itemimage"), postItem);
 
 app.patch("/api/items/:itemId", patchItem);
@@ -121,7 +124,7 @@ app.delete("/api/items/:itemId", deleteItem);
 
 // Message Routes
 
-app.get("/api/messages", getAllMessages);
+app.get("/api/messages", getAllDBMessages);
 
 app.post("/api/addmessage", postMessage);
 
