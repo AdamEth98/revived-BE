@@ -14,12 +14,3 @@ const itemSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("items", itemSchema);
-
-// {
-//   "itemname": "shoes",
-//   "itemlocation": "D973TY",
-//   "itemcategory": "clothing",
-//   "itemowner": "QWERTY",
-//   "itemimgurl":
-//     "PICTURE OF SHOES"
-//   }

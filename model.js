@@ -32,7 +32,7 @@ exports.postAvatar = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-  const removeUser = await userSchema.remove({ _id: req.params.userId });
+  const removeUser = await userSchema.deleteOne({ _id: req.params.userId });
   res.status(204).send(removeUser);
 };
 
@@ -96,7 +96,7 @@ exports.patchItem = async (req, res) => {
 };
 
 exports.deleteItem = async (req, res) => {
-  const removeItem = await itemSchema.remove({ _id: req.params.itemId });
+  const removeItem = await itemSchema.deleteOne({ _id: req.params.itemId });
   res.status(204).send(removeItem);
 };
 
