@@ -15,6 +15,7 @@ const {
   patchUser,
   getSingleItem,
   getAllUserItems,
+  getUserFavourites,
   getAllItems,
   getAllUsers,
   deleteUser,
@@ -118,6 +119,8 @@ app.get("/api/items/:itemId", getSingleItem);
 app.get("/api/items", getAllItems);
 
 app.get("/api/users/:userId/items", getAllUserItems);
+
+app.get("/api/users/:userId/favourites", getUserFavourites);
 
 app.post("/api/users/:userId/items", upload.single("itemimage"), postItem);
 

@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   items: [{ type: Schema.Types.ObjectId, ref: "items" }],
   charity: { type: String, default: "" },
   avatar: { type: String, default: "" },
+  favouriteItems: [{ type: Schema.Types.ObjectId, ref: "items" }],
 });
 
 module.exports = mongoose.model("users", userSchema);

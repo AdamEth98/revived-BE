@@ -44,10 +44,10 @@ exports.getSingleItem = async (req, res) => {
   res.status(200).send(singleItem);
 };
 
-exports.getAllItems = async (req, res) => {
-  const allItems = await itemSchema.find();
-  res.status(200).send(allItems);
-};
+// exports.getAllItems = async (req, res) => {
+//   const allItems = await itemSchema.find();
+//   res.status(200).send(allItems);
+// };
 
 exports.getAllItems = async (req, res) => {
   const category = req.query.category;
@@ -65,6 +65,13 @@ exports.getAllUserItems = async (req, res) => {
     itemownerid: req.params.userId,
   });
   res.status(200).send(allUserItems);
+};
+
+exports.getUserFavourites = async (req, res) => {
+  const allUserFavourites = await userSchema
+    .findById(req.params.userId)
+    .populate({ path: "favouriteItems" });
+  res.status(200).send(allUserFavourites.favouriteItems);
 };
 
 exports.postItem = async (req, res) => {
