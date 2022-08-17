@@ -40,14 +40,8 @@ exports.deleteUser = async (req, res) => {
 
 exports.getSingleItem = async (req, res) => {
   const singleItem = await itemSchema.findById(req.params.itemId);
-  //.populate("items");
   res.status(200).send(singleItem);
 };
-
-// exports.getAllItems = async (req, res) => {
-//   const allItems = await itemSchema.find();
-//   res.status(200).send(allItems);
-// };
 
 exports.getAllItems = async (req, res) => {
   const category = req.query.category;
