@@ -7,7 +7,7 @@ const itemSchema = new mongoose.Schema({
   itemcategory: String,
   itemdescription: { type: String, default: "" },
   itemowner: String,
-  itemownerid: { type: Schema.Types.ObjectId, ref: "itemownerid" },
+  itemownerid: { type: mongoose.Schema.Types.ObjectId, ref: "itemownerid" },
   claimed: { type: Boolean, default: false },
   itemcreateddate: { type: Date, default: Date.now },
   itemimgurl: { type: String },
